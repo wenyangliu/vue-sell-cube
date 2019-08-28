@@ -1,29 +1,20 @@
 # vue-sell-cube
+基于cube-ui的vue仿饿了么
 
-## Project setup
+### 安装
 ```
-yarn install
+yarn
 ```
 
-### Compiles and hot-reloads for development
+### 启动
 ```
 yarn run serve
 ```
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+## Cube-ui
 
-### Run your tests
-```
-yarn run test
-```
+![TIM截图20190827220615.png](https://i.loli.net/2019/08/28/YhPBXe3IjRUiZ58.png)
 
-### Lints and fixes files
-```
-yarn run lint
-```
+### 使用到的插件
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+1. axios (数据请求)
