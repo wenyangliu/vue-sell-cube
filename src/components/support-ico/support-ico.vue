@@ -23,7 +23,7 @@
 </script>
 
 <style lang="stylus" scoped>
-  @import "../../common/stylus/mixin"
+  @import "~common/stylus/mixin"
 
   .support-ico
     display: inline-block

@@ -22,11 +22,12 @@ module.exports = {
       theme: true
     }
   },
-  chainWebpack(config) {
+  chainWebpack: config => {
     config.resolve.alias
       .set('components', resolve('src/components'))
       .set('common', resolve('src/common'))
       .set('assets', resolve('src/assets'))
+      .set('api', resolve('src/api'))
 
     config.plugin('context')
       .use(webpack.ContextReplacementPlugin,

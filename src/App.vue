@@ -1,30 +1,70 @@
 <template>
   <div id="app">
     <v-header :seller="seller"></v-header>
+    <div class="tab-wrapper">
+      <tab :tabs="tabs"></tab>
+    </div>
   </div>
 </template>
 
 <script>
-import VHeader from './components/v-header/v-header'
+  import { getSeller } from '@/api'
+  import VHeader from '@/components/v-header/v-header'
+  import Tab from '@/components/tab/tab'
+  import Goods from '@/components/goods/goods'
+  import Ratings from '@/components/ratings/ratings'
+  import Seller from '@/components/seller/seller'
 
-export default {
-  name: 'app',
-  components: {
-    'v-header': VHeader
-  },
-  data () {
-    return {
-      seller: {}
+  export default {
+    name: 'app',
+    components: {
+      'v-header': VHeader,
+      'tab': Tab
+    },
+    data() {
+      return {
+        seller: {}
+      }
+    },
+    computed: {
+      tabs() {
+        return [
+          {
+            label: '商品',
+            component: Goods,
+            data: {
+              seller: this.seller
+            }
+          },
+          {
+            label: '评价',
+            component: Ratings,
+            data: {
+              seller: this.seller
+            }
+          },
+          {
+            label: '商家',
+            component: Seller,
+            data: {
+              seller: this.seller
+            }
+          }
+        ]
+      }
+    },
+    created() {
+      this._getSeller()
+    },
+    methods: {
+      _getSeller() {
+        getSeller().then(seller => {
+          console.log(seller)
+          this.seller = seller
+        })
+      }
     }
-  },
-  created () {
-    this.axios.get('/seller').then(res => {
-      console.log(res)
-      this.seller = res.data.result
-      console.log('seller', this.seller)
-    })
   }
-}
 </script>
 <style lang="stylus">
   #app

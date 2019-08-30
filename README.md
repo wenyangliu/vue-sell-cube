@@ -18,3 +18,5 @@ yarn run serve
 ### 使用到的插件
 
 1. axios (数据请求)
+
+2. moment (格式化时间)
