@@ -18,6 +18,9 @@
               <div class="text">
                 <support-ico v-if="props.txt.type >= 1" :size="3" :type="props.txt.type"></support-ico>
                 <span>{{props.txt.name}}</span>
+                <span class="num" v-if="props.txt.count">
+                  <bubble :num="props.txt.count"></bubble>
+                </span>
               </div>
             </template>
           </cube-scroll-nav-bar>
@@ -48,24 +51,38 @@
                   <span class="now">￥{{food.price}}</span>
                   <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                 </div>
-                <div class="cart-control-wrapper"></div>
+                <div class="cart-control-wrapper">
+                  <cart-control :food="food"></cart-control>
+                </div>
               </div>
             </li>
           </ul>
         </cube-scroll-nav-panel>
       </cube-scroll-nav>
     </div>
+    <div class="shop-cart-wrapper">
+      <shop-cart
+        ref="shopCart"
+        :select-foods="selectFoods"
+        :delivery-price="seller.deliveryPrice"
+        :min-price="seller.minPrice"
+      ></shop-cart>
+    </div>
   </div>
 </template>
 
 <script>
   import SupportIco from '../../components/support-ico/support-ico'
-  import Food from '../../components/food/food'
+  import Bubble from '../../components/bubble/bubble'
+  import CartControl from '../../components/cart-control/cart-controls'
+  import ShopCart from '../../components/shop-cart/shop-cart'
   import { getGoods } from '../../api'
   export default {
     components: {
       SupportIco,
-      Food
+      Bubble,
+      CartControl,
+      ShopCart
     },
     props: {
       data: {
@@ -86,6 +103,20 @@
       this._getGoods()
     },
     computed: {
+      seller() {
+        return this.data.seller
+      },
+      selectFoods() {
+        let foods = []
+        this.goods.forEach(good => {
+          good.foods.forEach(food => {
+            if (food.count) {
+              foods.push(food)
+            }
+          })
+        })
+        return foods
+      },
       barTxts() {
         let ret = []
         this.goods.forEach(good => {
