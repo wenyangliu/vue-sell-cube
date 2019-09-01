@@ -52,7 +52,7 @@
                   <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                 </div>
                 <div class="cart-control-wrapper">
-                  <cart-control :food="food"></cart-control>
+                  <cart-control @add="onAdd" :food="food"></cart-control>
                 </div>
               </div>
             </li>
@@ -99,9 +99,6 @@
         }
       }
     },
-    created() {
-      this._getGoods()
-    },
     computed: {
       seller() {
         return this.data.seller
@@ -131,23 +128,52 @@
       }
     },
     methods: {
-      _getGoods() {
-        getGoods().then(goods => {
-          this.goods = goods
-        })
+      onAdd(el) {
+        this.$refs.shopCart.drop(el)
+      },
+      fetch() {
+        if (!this.fetched) {
+          this.fetched = true
+          getGoods().then(goods => {
+            this.goods = goods
+          })
+        }
       },
       selectFood(food) {
         this.selectedFood = food
         this._showFood()
+        this._showShopCartSticky()
       },
       // 使用 createAPI 展示商品详情页
       _showFood() {
         this.foodComp = this.foodComp || this.$createFood({
           $props: {
             food: 'selectedFood'
+          },
+          $events: {
+            add: (target) => {
+              this.shopCartStickyComp.drop(target)
+            },
+            leave: () => {
+              this._hideShopCartSticky()
+            }
           }
         })
         this.foodComp.show()
+      },
+      _showShopCartSticky() {
+        this.shopCartStickyComp = this.shopCartStickyComp || this.$createShopCartSticky({
+          $props: {
+            selectFoods: 'selectFoods',
+            deliveryPrice: this.seller.deliveryPrice,
+            minPrice: this.seller.minPrice,
+            fold: true
+          }
+        })
+        this.shopCartStickyComp.show()
+      },
+      _hideShopCartSticky() {
+        this.shopCartStickyComp.hide()
       }
     }
   }

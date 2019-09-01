@@ -14,6 +14,7 @@
   import Goods from '@/components/goods/goods'
   import Ratings from '@/components/ratings/ratings'
   import Seller from '@/components/seller/seller'
+  import qs from 'query-string'
 
   export default {
     name: 'app',
@@ -23,7 +24,9 @@
     },
     data() {
       return {
-        seller: {}
+        seller: {
+          id: qs.parse(location.search).id
+        }
       }
     },
     computed: {
@@ -58,9 +61,9 @@
     },
     methods: {
       _getSeller() {
-        getSeller().then(seller => {
+        getSeller({ id: this.seller.id }).then(seller => {
           console.log(seller)
-          this.seller = seller
+          this.seller = Object.assign({}, this.seller, seller)
         })
       }
     }

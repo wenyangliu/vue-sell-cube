@@ -20,3 +20,7 @@ yarn run serve
 1. axios (数据请求)
 
 2. moment (格式化时间)
+
+3. query-string (获取url参数)
+
+4. good-storage (本地存储)

@@ -30,7 +30,7 @@
                   <span>￥{{food.price*food.count}}</span>
                 </div>
                 <div class="cart-control-wrapper">
-                  <cart-control :food="food"></cart-control>
+                  <cart-control @add="onAdd" :food="food"></cart-control>
                 </div>
               </li>
             </ul>
@@ -55,7 +55,17 @@
         type: Array
       }
     },
+    created() {
+      this.$on('show', () => {
+        this.$nextTick(() => {
+          this.$refs.listContent.refresh()
+        })
+      })
+    },
     methods: {
+      onAdd(el) {
+        this.$emit('add', el)
+      },
       maskClick() {
         this.hide()
       },

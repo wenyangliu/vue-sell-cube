@@ -74,6 +74,8 @@
       },
       onChange(current) {
         this.index = current
+        const component = this.$refs.component[current]
+        component.fetch && component.fetch()
       }
     }
   }

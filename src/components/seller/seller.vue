@@ -86,6 +86,7 @@
   import Star from '../../components/star/star'
   import SupportIco from '../../components/support-ico/support-ico'
   import Split from '../../components/split/split'
+  import { saveToLocal, loadFromLocal } from '../../common/js/storage'
 
   export default {
     components: {
@@ -122,9 +123,13 @@
         return this.favorite ? '已收藏' : '收藏'
       }
     },
+    created() {
+      this.favorite = loadFromLocal(this.seller.id, 'favorite', false)
+    },
     methods: {
       toggleFavorite() {
         this.favorite = !this.favorite
+        saveToLocal(this.seller.id, 'favorite', this.favorite)
       },
       // 预览图片
       handlePic(index) {

@@ -93,16 +93,13 @@
         }
       }
     },
-    created() {
-      this._getRatings()
-    },
     computed: {
       seller() {
         return this.data.seller || {}
       }
     },
     methods: {
-      _getRatings() {
+      fetch() {
         getRatings().then(ratings => {
           this.ratings = ratings
         })

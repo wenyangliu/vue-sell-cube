@@ -20,7 +20,7 @@
               <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
             </div>
             <div class="cart-control-wrapper">
-              <cart-control :food="food"></cart-control>
+              <cart-control @add="addFood" :food="food"></cart-control>
             </div>
             <transition name="fade">
               <div @click="addFirst" class="buy" v-show="!food.count">
@@ -105,6 +105,13 @@
         return this.food.ratings
       }
     },
+    created() {
+      this.$on('show', () => {
+        this.$nextTick(() => {
+          this.$refs.scroll.refresh()
+        })
+      })
+    },
     methods: {
       afterLeave() {
         this.$emit('leave')
@@ -112,6 +119,9 @@
       addFirst(event) {
         this.$set(this.food, 'count', 1)
         this.$emit('add', event.target)
+      },
+      addFood(el) {
+        this.$emit('add', el)
       },
       format(time) {
         return moment(time).format('YYYY-MM-DD hh:mm')
