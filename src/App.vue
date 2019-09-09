@@ -62,7 +62,6 @@
     methods: {
       _getSeller() {
         getSeller({ id: this.seller.id }).then(seller => {
-          console.log(seller)
           this.seller = Object.assign({}, this.seller, seller)
         })
       }

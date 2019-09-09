@@ -134,7 +134,6 @@
       // 预览图片
       handlePic(index) {
         this.initialIndex = index
-        console.log(this.initialIndex)
         const params = {
           $props: {
             imgs: this.data.seller.bigPics,
