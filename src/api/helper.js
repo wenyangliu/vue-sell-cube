@@ -1,14 +1,20 @@
 import axios from 'axios'
 
+const urlMap = {
+  development: '/',
+  production: 'https://easy-mock.com/mock/5d65f7a9e26c58281ca886af/sell/'
+}
+const baseUrl = urlMap[process.env.NODE_ENV]
+
 export function get(url) {
   return function (params = {}) {
-    return axios.get(url, {
+    return axios.get(baseUrl + url, {
       params
     })
       .then(res => {
-        const { code, result } = res.data
+        const { code, data } = res.data
         if (code === 0) {
-          return result
+          return data
         }
       })
       .catch(e => console.log(e))

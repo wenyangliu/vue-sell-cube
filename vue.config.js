@@ -1,5 +1,9 @@
 const path = require('path')
 const webpack = require('webpack')
+const appData = require('./data.json')
+const seller = appData.seller
+const goods = appData.goods
+const ratings = appData.ratings
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -22,6 +26,28 @@ module.exports = {
       theme: true
     }
   },
+  devServer: {
+    before(app) {
+      app.get('/api/seller', function (req, res) {
+        res.json({
+          code: 0,
+          data: seller
+        })
+      })
+      app.get('/api/goods', function (req, res) {
+        res.json({
+          code: 0,
+          data: goods
+        })
+      })
+      app.get('/api/ratings', function (req, res) {
+        res.json({
+          code: 0,
+          data: ratings
+        })
+      })
+    }
+  },
   chainWebpack: config => {
     config.resolve.alias
       .set('components', resolve('src/components'))
@@ -32,5 +58,6 @@ module.exports = {
     config.plugin('context')
       .use(webpack.ContextReplacementPlugin,
         [/moment[/\\]locale$/, /zh-cn/])
-  }
+  },
+  baseUrl: ''
 }
